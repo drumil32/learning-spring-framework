@@ -13,3 +13,20 @@ Iter 3:- Loose Coupling - Spring Level 1
 	created configuration class
 	and spring bean
 we take further depth knowledge about spring bean
+
+Q. what is spring container?
+	Spring Container :- manages spring bean and their lifecycle.
+	two types of spring container :-
+		1. Bean Factory :- basic spring container
+		2. Application Context :- advance spring container with enterprise-specific feature
+
+pojo :- any java object is pojo
+java bean :- 
+	RULES :-
+	it must have public no args constructor
+	it must have getter and setter
+	it must be Serializable( means we will implement serializable interface )
+   if class follow these three rules than instance of a class is known as java bean
+
+spring bean :-
+	any class instance which managed by spring is known as spring bean
