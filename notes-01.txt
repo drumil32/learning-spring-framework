@@ -1,0 +1,5 @@
+Itr 1 :- tightly coupled java code
+	we have three class
+	1. for main
+	2. GameRunner
+	3. MarioGame
