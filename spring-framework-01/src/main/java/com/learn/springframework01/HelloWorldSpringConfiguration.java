@@ -2,8 +2,9 @@ package com.learn.springframework01;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
-record Person(String name,int age) {}
+record Person(String name,int age,Address address) {}
 
 record Address(String firstLine,String city) {}
 
@@ -21,11 +22,29 @@ public class HelloWorldSpringConfiguration {
 	
 	@Bean
 	public Person person() {
-		return new Person("Drumil Akhenia",21);
+		return new Person("Drumil Akhenia",21, new Address("hard","code"));
 	}
 	
 	@Bean
+//	implementing auto wiring using metho call [here we are calling method (other bean method) to create this bean]
+//	it means we are creating new beans using existing beans which is managed by spring framework
+	public Person person2MethodCall() {
+		return new Person(name(),age(),address());
+	}
+	
+	@Bean
+	public Person person3PassingParameter(String name,int age,Address address2) { // here Address will call primary bean always WHY?(is this right conclusion)
+		return new Person(name,age,address2);
+	}
+	
+	@Bean(name="address1")
+	@Primary
 	public Address address() {
 		return new Address("Station Road","Dhoraji");
+	}
+	
+	@Bean(name="address2")
+	public Address address2() {
+		return new Address("Address2","2");
 	}
 }
