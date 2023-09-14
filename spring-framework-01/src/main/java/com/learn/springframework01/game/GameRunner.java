@@ -1,15 +1,19 @@
 package com.learn.springframework01.game;
 
 public class GameRunner {
-	private MarioGame marioGame;
-	public GameRunner(MarioGame marioGame){
-		this.marioGame = marioGame;
+	private GameConsole game;
+	public GameRunner(GameConsole game){
+		this.game = game;
 	}
 	public void run() {
-		System.out.println("Running game : " + marioGame);
-		marioGame.up();
-		marioGame.down();
-		marioGame.left();
-		marioGame.right();
+		System.out.println("Running game : " + game);
+		game.up();
+		game.down();
+		game.left();
+		game.right();
+	}
+	public void setConsole(GameConsole game) {
+		this.game = game;
+		
 	}
 }

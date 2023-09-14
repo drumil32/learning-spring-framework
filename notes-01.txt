@@ -3,3 +3,8 @@ Itr 1 :- tightly coupled java code
 	1. for main
 	2. GameRunner
 	3. MarioGame
+
+why is coupling IMP ?
+	coupling is measure of how much work is involved in changing something
+
+Iter 2:- Loose Coupling using interface
