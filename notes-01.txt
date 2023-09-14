@@ -8,3 +8,7 @@ why is coupling IMP ?
 	coupling is measure of how much work is involved in changing something
 
 Iter 2:- Loose Coupling using interface
+
+Iter 3:- Loose Coupling - Spring Level 1
+	created configuration class
+	and spring bean
