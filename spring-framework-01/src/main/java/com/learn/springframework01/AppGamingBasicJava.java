@@ -9,8 +9,10 @@ import com.learn.springframework01.game.SuperContraGame;
 public class AppGamingBasicJava {
 
 	public static void main(String[] args) {
-		GameConsole game = new MarioGame();
-		GameRunner gameRunner = new GameRunner(game);
+		GameConsole game = new MarioGame();  // 1.object creation
+		
+		GameRunner gameRunner = new GameRunner(game); // 2. object creation + wiring of dependency
+//		game is dependency of gamerunner
 		gameRunner.run();
 		game = new SuperContraGame();
 		gameRunner.setConsole(game);
