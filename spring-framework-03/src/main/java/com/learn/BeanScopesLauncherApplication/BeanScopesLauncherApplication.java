@@ -1,4 +1,4 @@
-package com.learn.springframework01;
+package com.learn.BeanScopesLauncherApplication;
 
 import java.util.Arrays;
 
