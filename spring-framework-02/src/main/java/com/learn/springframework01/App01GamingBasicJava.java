@@ -10,7 +10,7 @@ import com.learn.springframework01.game.GameRunner;
 import com.learn.springframework01.game.PacManGame;
 
 @Configuration
-class App01GamingConfiguration {
+public class App01GamingBasicJava {
 	@Bean
 	public GameRunner gameRunner(GameConsole gameConsole) {
 		return new GameRunner(gameConsole);
@@ -20,12 +20,8 @@ class App01GamingConfiguration {
 	public GameConsole gameConsole(){
 		return new PacManGame();
 	}
-}
-
-public class App01GamingBasicJava {
-
 	public static void main(String[] args) {
-		var context = new AnnotationConfigApplicationContext(App01GamingConfiguration.class);
+		var context = new AnnotationConfigApplicationContext(App01GamingBasicJava.class);
 		Arrays.stream(context.getBeanDefinitionNames()).forEach(bean->System.out.println(bean));
 		
 		GameRunner gameRunner = (GameRunner) context.getBean("gameRunner");
