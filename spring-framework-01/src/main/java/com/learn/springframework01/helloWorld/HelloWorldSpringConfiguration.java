@@ -1,5 +1,6 @@
-package com.learn.springframework01;
+package com.learn.springframework01.helloWorld;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -44,6 +45,7 @@ public class HelloWorldSpringConfiguration {
 	}
 	
 	@Bean(name="address2")
+	@Qualifier("address2Qualifier")
 	public Address address2() {
 		return new Address("Address2","2");
 	}

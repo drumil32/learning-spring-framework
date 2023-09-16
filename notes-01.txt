@@ -14,10 +14,14 @@ Iter 3:- Loose Coupling - Spring Level 1
 	and spring bean
 we take further depth knowledge about spring bean
 
+spring container(known as spring context)(also known as IOC container) :- manages spring beans & their lifecycle
+input to sprint container is pojos and configuration classes
+output Ready system( inside jvm we have spring context which is managing all the beans that we have configured)
+
 Q. what is spring container?
 	Spring Container :- manages spring bean and their lifecycle.
 	two types of spring container :-
-		1. Bean Factory :- basic spring container
+		1. Bean Factory :- basic spring container( when we severly constrained about memory then we use this one )
 		2. Application Context :- advance spring container with enterprise-specific feature
 
 pojo :- any java object is pojo
@@ -30,3 +34,34 @@ java bean :-
 
 spring bean :-
 	any class instance which managed by spring is known as spring bean
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
