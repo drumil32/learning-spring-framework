@@ -1,2 +1,4 @@
 in first section beans are managed by spring but we are creating those beans
 so now I want to that spring should create beans for me.
+
+where to use @Component and @Bean
