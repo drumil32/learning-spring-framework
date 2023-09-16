@@ -1,5 +1,8 @@
 package com.learn.springframework01.game;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class MarioGame implements GameConsole{
 	public void up() {
 		System.out.println("mario is moving up");

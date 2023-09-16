@@ -1,5 +1,10 @@
 package com.learn.springframework01.game;
 
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Component;
+
+@Component
+@Primary
 public class PacManGame implements GameConsole {
 
 	@Override
