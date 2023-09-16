@@ -35,8 +35,17 @@ java bean :-
 spring bean :-
 	any class instance which managed by spring is known as spring bean
 
-
-
+till now we understand this topics :-
+	tight coupling
+	loose coupling
+	java interface
+	Spring container
+	@Bean
+	@Configuration
+	Basic Annotation
+	Application Context
+	Auto-wiring
+	Java Beans vs Spring Bean
 
 
 
