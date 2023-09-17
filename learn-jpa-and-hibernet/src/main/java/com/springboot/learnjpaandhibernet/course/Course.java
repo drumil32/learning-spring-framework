@@ -1,8 +1,20 @@
 package com.springboot.learnjpaandhibernet.course;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity(name="Course")
 public class Course {
+	@Id
+	@Column(name="id")
 	private long id;
+//	NOTE:- if data member name is same as column name then no need to use @Column annotation
+//	THIS is also applied for name which we gave with @Entity THOUGH @Entity is required over there
+	@Column(name="name")
 	private String name;
+	
+	@Column(name="author")
 	private String author;
 
 	public Course(long id, String name, String author) {
