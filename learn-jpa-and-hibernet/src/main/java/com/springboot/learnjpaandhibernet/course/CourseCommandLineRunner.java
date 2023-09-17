@@ -6,22 +6,34 @@ import org.springframework.stereotype.Component;
 
 import com.springboot.learnjpaandhibernet.course.jdbc.CourseJdbcRepository;
 import com.springboot.learnjpaandhibernet.course.jpa.CourseJpaRepository;
+import com.springboot.learnjpaandhibernet.course.springdatajpa.CourseSpringDataJpaRepository;
 
 @Component
 public class CourseCommandLineRunner implements CommandLineRunner {
 
-	@Autowired
+//	@Autowired
 //	private CourseJdbcRepository repository;
-	private CourseJpaRepository repository;
+	
+//	@Autowired
+//	private CourseJpaRepository repository;
+	
+	@Autowired
+	private CourseSpringDataJpaRepository repository;
 
 	@Override
 	public void run(String... args) throws Exception {
-		repository.insert(new Course(1, "Learn AWS", "Drumil Akhenia"));
-		repository.insert(new Course(2, "Learn Docker", "Drumil Akhenia"));
-		repository.insert(new Course(3, "Learn K8s", "Drumil Akhenia"));
-		repository.delete(1);
-		System.out.println(repository.findById(2));
-		System.out.println(repository.findById(3));
+		repository.save(new Course(1, "Learn AWS", "Drumil AKHENIA"));
+		repository.save(new Course(2, "Learn Docker", "Drumil Akhenia"));
+		repository.save(new Course(3, "Learn K8s", "DRUMIL Akhenia"));
+		repository.deleteById(1l);
+		System.out.println(repository.findById(2l));
+		System.out.println(repository.findById(3l));
+		
+		System.out.println(repository.findAll());
+		System.out.println(repository.count());
+		
+		System.out.println(repository.findByAuthor("Drumil Akhenia"));
+		System.out.println(repository.findByName("Learn Docker"));
 	}
 
 }
