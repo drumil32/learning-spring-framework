@@ -11,7 +11,7 @@ public class SayHelloController {
 	public String sayHello() {
 		return "Hello!how are you?";
 	}
-	
+
 	@RequestMapping("say-hello-html")
 	@ResponseBody
 	public String sayHelloHtml() {
@@ -24,7 +24,7 @@ public class SayHelloController {
 		sb.append("<h1>My first html page</h1>");
 		sb.append("</body>");
 		sb.append("</html>");
-		
+
 		return sb.toString();
 //		return "<html>\r\n"
 //				+ "	<head>\r\n"
@@ -34,5 +34,10 @@ public class SayHelloController {
 //				+ "		<h1>My first html page</h1>\r\n"
 //				+ "	</body>\r\n"
 //				+ "</html>";
+	}
+
+	@RequestMapping("say-hello-jsp")
+	public String sayHelloJsp() {
+		return "sayHello";
 	}
 }
