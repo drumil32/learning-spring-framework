@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Add Todo page</title>
+<title>Update Todo page</title>
 <link href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css"
 	rel="stylesheet" />
 </head>
@@ -15,9 +15,7 @@
 		<form:form method="post" modelAttribute="todo">
 			Description: <form:input type="text" path="description"
 				required="required" />
-			<form:errors path="description" cssClass="text-warning" />
-			<form:input type="hidden" path="isCompleted" />
-			<form:input type="hidden" path="targetDate" />
+				<form:errors path="description" cssClass="text-warning"/>
 			<input type="submit" class="btn btn-success" />
 		</form:form>
 	</div>
