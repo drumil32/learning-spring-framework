@@ -14,7 +14,6 @@
 		<table class="table">
 			<thead>
 				<tr>
-					<th>id</th>
 					<th>Description</th>
 					<th>Target Date</th>
 					<th>is Done?</th>
@@ -25,7 +24,6 @@
 			<tbody>
 				<c:forEach items="${todos}" var="todo">
 					<tr>
-						<td>${todo.id}</td>
 						<td>${todo.getDescription()}</td>
 						<td>${todo.getTargetDate()}</td>
 						<td>${todo.getIsCompleted()}</td>
