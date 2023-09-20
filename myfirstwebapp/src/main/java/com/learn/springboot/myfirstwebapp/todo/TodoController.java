@@ -4,10 +4,12 @@ import java.time.LocalDate;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+
+import jakarta.validation.Valid;
 
 @Controller
 @SessionAttributes("name")
@@ -27,14 +29,20 @@ public class TodoController {
 	}
 	
 	@RequestMapping(value = "/add-todo", method = RequestMethod.GET)
-	public String submitForm() {
+	public String submitForm(ModelMap model) {
+		String username = (String)model.get("usename");
+		Todo todo = new Todo(0,username,"Defalut desc",LocalDate.now(),false);
+		model.put("todo", todo);
 		return "addTodo";
 	}
 
 	@RequestMapping(value = "/add-todo", method = RequestMethod.POST)
-	public String addTodo(@RequestParam String description,@RequestParam LocalDate targetDate,ModelMap model) {
+	public String addTodo(ModelMap model,@Valid Todo todo,BindingResult result) {
+		if( result.hasErrors() ) {
+			return "addTodo";
+		}
 		String username = (String) model.get("name");
-		todoService.addTodo(username,description,targetDate,false);
+		todoService.addTodo(username,todo.getDescription(),LocalDate.now().plusMonths(2),false);
 		return "redirect:todos";
 	}
 }

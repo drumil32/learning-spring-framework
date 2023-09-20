@@ -2,9 +2,13 @@ package com.learn.springboot.myfirstwebapp.todo;
 
 import java.time.LocalDate;
 
+import jakarta.validation.constraints.Size;
+
 public class Todo {
 	private int id;
 	private String username;
+	
+	@Size(min=10,message = "please give desc with at least size 10")
 	private String description;
 	private LocalDate targetDate;
 	private boolean isCompleted;
@@ -17,6 +21,7 @@ public class Todo {
 		this.targetDate = targetDate;
 		this.isCompleted = isCompleted;
 	}
+	public Todo() {}
 	public int getId() {
 		return id;
 	}
