@@ -14,21 +14,22 @@ public class TodoService {
 	private static int todoCount = 0;
 	
 	static {
-		todos.add(new Todo(++todoCount,"aws","aws cloud",LocalDate.now().plusMonths(2),false));
-		todos.add(new Todo(++todoCount,"docker","containerzation",LocalDate.now().plusMonths(3),false));
-		todos.add(new Todo(++todoCount,"k8s","container orcastrator",LocalDate.now().plusMonths(4),false));
-		todos.add(new Todo(++todoCount,"azure","azure cloud",LocalDate.now().plusMonths(6),false));
-		todos.add(new Todo(++todoCount,"python","py programming",LocalDate.now().plusMonths(9),false));
+		todos.add(new Todo(++todoCount,"drumil","aws cloud",LocalDate.now().plusMonths(2),false));
+		todos.add(new Todo(++todoCount,"drumil","containerzation",LocalDate.now().plusMonths(3),false));
+		todos.add(new Todo(++todoCount,"drumil","container orcastrator",LocalDate.now().plusMonths(4),false));
+		todos.add(new Todo(++todoCount,"drumil","azure cloud",LocalDate.now().plusMonths(6),false));
+		todos.add(new Todo(++todoCount,"drumil","py programming",LocalDate.now().plusMonths(9),false));
 	}
-	public static List<Todo> findByUsername(String username){
-		return todos;
+	public List<Todo> findByUsername(String username){
+		Predicate<? super Todo> predicate = 
+				todo -> todo.getUsername()==username;
+		return todos.stream().filter(predicate).toList();
 	}
 	public void addTodo(String username,String description, LocalDate targetDate, boolean isCompleted) {
 		todos.add(new Todo(++todoCount,username,description,targetDate,isCompleted));
 	}
 	public void deleteById(int id) {
 		Predicate<? super Todo> predicate = todo -> todo.getId()==id;
-		System.out.println(predicate);
 		todos.removeIf(predicate);
 	}
 	public void updateTodo(Todo todo) {
