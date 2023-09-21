@@ -15,6 +15,7 @@
 		</fieldset>
 
 		<form:input type="hidden" path="isCompleted" />
+		<form:input type="hidden" path="username" />
 		<input type="submit" class="btn btn-success" />
 	</form:form>
 </div>
