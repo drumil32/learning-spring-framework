@@ -20,7 +20,7 @@ public class User {
 	private String name;
 	
 	@Past(message="birthdate should be in the past")
-	@JsonProperty("birth_date")
+	@JsonProperty("birth_date") // if we want to change name of field in side json formate
 	private LocalDate birthDate;
 
 	public User(int id, String name, LocalDate birthDate) {
@@ -29,7 +29,7 @@ public class User {
 		this.birthDate = birthDate;
 		this.name = name;
 	}
-
+	public User() {}
 	public int getId() {
 		return id;
 	}
