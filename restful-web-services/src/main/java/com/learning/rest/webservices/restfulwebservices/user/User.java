@@ -1,4 +1,4 @@
-package com.learning.rest.webservices.restfulwebservices.helloworld.user;
+package com.learning.rest.webservices.restfulwebservices.user;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -30,11 +30,13 @@ public class User {
 	@JsonIgnore
 	private List<Post> post;
 
-	public User(int id, String name, LocalDate birthDate) {
+	public User(Integer id, @Size(min = 2, message = "name must have atleast 2 charecters") String name,
+			@Past(message = "birthdate should be in the past") LocalDate birthDate, List<Post> post) {
 		super();
 		this.id = id;
-		this.birthDate = birthDate;
 		this.name = name;
+		this.birthDate = birthDate;
+		this.post = post;
 	}
 
 	public User() {
@@ -64,9 +66,16 @@ public class User {
 		this.name = name;
 	}
 
-	@Override
-	public String toString() {
-		return "user [id=" + id + ", birthDate=" + birthDate + ", name=" + name + "]";
+	public List<Post> getPost() {
+		return post;
 	}
 
+	public void setPost(List<Post> post) {
+		this.post = post;
+	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", name=" + name + ", birthDate=" + birthDate + ", post=" + post + "]";
+	}
 }

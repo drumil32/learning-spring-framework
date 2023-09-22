@@ -1,10 +1,10 @@
-package com.learning.rest.webservices.restfulwebservices.helloworld.user;
+package com.learning.rest.webservices.restfulwebservices.user;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Predicate;
 
 import org.springframework.hateoas.EntityModel;
@@ -18,17 +18,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.learning.rest.webservices.restfulwebservices.JpaRepository.PostRepository;
+import com.learning.rest.webservices.restfulwebservices.JpaRepository.UserRepository;
+
 import jakarta.validation.Valid;
 
 @RestController
 public class UserResource {
 
-	private UserDaoService userDaoService;
+//	private UserDaoService userDaoService;
 	private final UserRepository userRepository;
+	private final PostRepository postRepository;
 
-	public UserResource(UserDaoService service, UserRepository userRepository) {
-		this.userDaoService = service;
+	public UserResource(UserRepository userRepository,PostRepository postRepository) {
 		this.userRepository = userRepository;
+		this.postRepository = postRepository;
 	}
 
 	@GetMapping(path = "/users")
@@ -70,5 +74,41 @@ public class UserResource {
 	public void deleteUser(@PathVariable Integer id) {
 //		userDaoService.deleteById(id);
 		userRepository.deleteById(id);
+	}
+	
+	@GetMapping(path="/users/{id}/posts")
+	public List<Post> retrivePostsForUser(@PathVariable int id){
+		User user = userRepository.findById(id).orElse(null);;
+
+		if (null == user)
+			throw new UserNotFoundException("user with id :- " + id + " not found");
+		return user.getPost();
+	}
+	
+	@GetMapping(path="/users/{userId}/posts/{postId}")
+	public Post retrivePostByIdForUser(@PathVariable int userId,@PathVariable int postId){
+		User user = userRepository.findById(userId).orElse(null);;
+
+		if (null == user)
+			throw new UserNotFoundException("user with id :- " + postId + " not found");
+		Predicate<? super Post> predicate = post -> post.getId()==postId;
+		List<Post> posts = user.getPost();
+		Post post = posts.stream().filter(predicate).findFirst().orElse(null);
+		if( null==post )	throw new PostNotFoundException("post with id :- "+postId+" not found");
+		return post;
+	}
+	
+	@PostMapping(path="/users/{id}/posts")
+	public ResponseEntity<Post> createPostForUser(@PathVariable int id,@Valid @RequestBody Post post) {
+		User user = userRepository.findById(id).orElse(null);;
+
+		if (null == user)
+			throw new UserNotFoundException("user with id :- " + id + " not found");
+		post.setUser(user);
+		Post savedPost = postRepository.save(post);
+		
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedPost.getId())
+				.toUri();
+		return ResponseEntity.created(location).build();
 	}
 }
