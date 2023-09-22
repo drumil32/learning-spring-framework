@@ -1,8 +1,12 @@
 package com.learning.rest.webservices.restfulwebservices.filtering;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 /*
 NOTE :- we should use field level static filtering because if field name is changed then we need to change it class level static filtering 
 	but in field level static filtering we don't need to change it */
@@ -14,6 +18,7 @@ public class User {
 	
 //	@JsonIgnore // filed level static filtering
 	private String password;
+	
 	private int id;
 	private String emailId;
 	public User(String username, String password, int id, String emailId) {
