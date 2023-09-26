@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -30,7 +31,7 @@ public class UserResource {
 	private final UserRepository userRepository;
 	private final PostRepository postRepository;
 
-	public UserResource(UserRepository userRepository,PostRepository postRepository) {
+	public UserResource(UserRepository userRepository, PostRepository postRepository) {
 		this.userRepository = userRepository;
 		this.postRepository = postRepository;
 	}
@@ -45,7 +46,8 @@ public class UserResource {
 	public EntityModel<User> retriveUser(@PathVariable Integer id) {
 //		User user = userDaoService.findById(id);
 
-		User user = userRepository.findById(id).orElse(null);;
+		User user = userRepository.findById(id).orElse(null);
+		;
 
 		if (null == user)
 			throw new UserNotFoundException("user with id :- " + id + " not found");
@@ -61,7 +63,7 @@ public class UserResource {
 	@PostMapping(path = "/users")
 	public ResponseEntity<User> createUser(@Valid @RequestBody User user) {
 //		User savedUser = userDaoService.save(user);
-		
+
 		User savedUser = userRepository.save(user);
 		System.out.println(savedUser);
 
@@ -72,43 +74,88 @@ public class UserResource {
 
 	@DeleteMapping(path = "/users/{id}")
 	public void deleteUser(@PathVariable Integer id) {
-//		userDaoService.deleteById(id);
 		userRepository.deleteById(id);
 	}
-	
-	@GetMapping(path="/users/{id}/posts")
-	public List<Post> retrivePostsForUser(@PathVariable int id){
-		User user = userRepository.findById(id).orElse(null);;
+
+	@GetMapping(path = "/users/{username}/posts")
+	public List<Post> retrivePostsForUser(@PathVariable String username) {
+		User user = userRepository.findByUsername(username).orElse(null);
+		;
 
 		if (null == user)
-			throw new UserNotFoundException("user with id :- " + id + " not found");
+			throw new UserNotFoundException("user with username :- " + username + " not found");
 		return user.getPost();
 	}
-	
-	@GetMapping(path="/users/{userId}/posts/{postId}")
-	public Post retrivePostByIdForUser(@PathVariable int userId,@PathVariable int postId){
-		User user = userRepository.findById(userId).orElse(null);;
+
+	@GetMapping(path = "/users/{username}/posts/{postId}")
+	public Post retrivePostByIdForUser(@PathVariable String username, @PathVariable int postId) {
+		User user = userRepository.findByUsername(username).orElse(null);
 
 		if (null == user)
-			throw new UserNotFoundException("user with id :- " + postId + " not found");
-		Predicate<? super Post> predicate = post -> post.getId()==postId;
+			throw new UserNotFoundException("user with username :- " + username + " not found");
+
+		Predicate<? super Post> predicate = post -> post.getId() == postId;
 		List<Post> posts = user.getPost();
 		Post post = posts.stream().filter(predicate).findFirst().orElse(null);
-		if( null==post )	throw new PostNotFoundException("post with id :- "+postId+" not found");
+		if (null == post)
+			throw new PostNotFoundException("post with id :- " + postId + " not found");
 		return post;
 	}
-	
-	@PostMapping(path="/users/{id}/posts")
-	public ResponseEntity<Post> createPostForUser(@PathVariable int id,@Valid @RequestBody Post post) {
-		User user = userRepository.findById(id).orElse(null);;
+
+	@DeleteMapping(path = "/users/{username}/posts/{postId}")
+	public void deletePostByIdForUser(@PathVariable String username, @PathVariable int postId) {
+		User user = userRepository.findByUsername(username).orElse(null);
+
+		if (user == null)
+			throw new UserNotFoundException("User with username: " + username + " not found");
+
+		List<Post> posts = user.getPost();
+
+		// Find the post with the specified postId
+		Post postToDelete = posts.stream().filter(post -> post.getId() == postId).findFirst().orElse(null);
+
+		if (postToDelete == null)
+			throw new PostNotFoundException("Post with id: " + postId + " not found");
+
+		// Use Spring Data JPA to delete the post from the database
+		postRepository.deleteById(postToDelete.getId());
+	}
+
+	@PutMapping(path = "/users/{username}/posts")
+	public ResponseEntity<Post> updatePostByIdForUser(@PathVariable String username, @Valid @RequestBody Post newPost) {
+		User user = userRepository.findByUsername(username).orElse(null);
 
 		if (null == user)
-			throw new UserNotFoundException("user with id :- " + id + " not found");
+			throw new UserNotFoundException("user with username :- " + username + " not found");
+
+		List<Post> posts = user.getPost();
+
+		// Find the post with the specified postId
+		Post postToUpdate = posts.stream().filter(post -> post.getId() == newPost.getId()).findFirst().orElse(null);
+
+		if (postToUpdate == null)
+			throw new PostNotFoundException("Post with id: " + newPost.getId() + " not found");
+		
+
+		newPost.setUser(user);
+		Post savedPost = postRepository.save(newPost);
+
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{username}")
+				.buildAndExpand(savedPost.getId()).toUri();
+		return ResponseEntity.created(location).build();
+	}
+
+	@PostMapping(path = "/users/{username}/posts")
+	public ResponseEntity<Post> createPostForUser(@PathVariable String username, @Valid @RequestBody Post post) {
+		User user = userRepository.findByUsername(username).orElse(null);
+
+		if (null == user)
+			throw new UserNotFoundException("user with username :- " + username + " not found");
 		post.setUser(user);
 		Post savedPost = postRepository.save(post);
-		
-		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedPost.getId())
-				.toUri();
+
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{username}")
+				.buildAndExpand(savedPost.getId()).toUri();
 		return ResponseEntity.created(location).build();
 	}
 }

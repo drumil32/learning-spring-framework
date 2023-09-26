@@ -6,6 +6,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -20,7 +21,8 @@ public class User {
 	private Integer id;
 
 	@Size(min = 2, message = "name must have atleast 2 charecters")
-	private String name;
+	@Column(unique = true)
+	private String username;
 
 	@Past(message = "birthdate should be in the past")
 	@JsonProperty("birth_date") // if we want to change name of field in side json formate
@@ -34,7 +36,7 @@ public class User {
 			@Past(message = "birthdate should be in the past") LocalDate birthDate, List<Post> post) {
 		super();
 		this.id = id;
-		this.name = name;
+		this.username = name;
 		this.birthDate = birthDate;
 		this.post = post;
 	}
@@ -59,11 +61,11 @@ public class User {
 	}
 
 	public String getName() {
-		return name;
+		return username;
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		this.username = name;
 	}
 
 	public List<Post> getPost() {
@@ -76,6 +78,6 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", birthDate=" + birthDate + ", post=" + post + "]";
+		return "User [id=" + id + ", name=" + username + ", birthDate=" + birthDate + ", post=" + post + "]";
 	}
 }
